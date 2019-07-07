@@ -45,8 +45,9 @@ func (a Amount) String() string {
 }
 
 func (a Amount) Cmp(b Amount) int {
-	i := big.Int(b)
-	return big.Int(a).Cmp(&i)
+	x := big.Int(a)
+	y := big.Int(b)
+	return x.Cmp(&y)
 }
 
 func (a Amount) Add(b Amount) Amount {
