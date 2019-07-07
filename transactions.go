@@ -20,6 +20,8 @@ type Transaction struct {
 
 	From []SpendInfo
 	To   []SpendInfo
+
+	Height uint64
 }
 
 // SpendInfo represents a transaction data element. This could either
