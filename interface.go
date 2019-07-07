@@ -200,7 +200,7 @@ type EscrowWithTimeout interface {
 	// release the funds:
 	//  - m of n signatures are provided (or)
 	//  - timeout has passed and a signature for timeoutKey is provided.
-	CreateMultisigWithTimeout(keys []*btcec.PublicKey, threshold int, timeout time.Duration, timeoutKey *btcec.PublicKey) (Address, []byte, error)
+	CreateMultisigWithTimeout(keys []btcec.PublicKey, threshold int, timeout time.Duration, timeoutKey btcec.PublicKey) (Address, []byte, error)
 }
 
 // WalletCrypter is an optional interface that the wallet may implement to allow
