@@ -1,4 +1,4 @@
-module wallet-interface
+module github.com/cpacia/wallet-interface
 
 go 1.12
 
