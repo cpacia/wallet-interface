@@ -61,7 +61,7 @@ type Wallet interface {
 
 	// Begin returns a new database transaction. A transaction must only be used
 	// once. After Commit() or Rollback() is called the transaction can be discarded.
-	Begin() (*Tx, error)
+	Begin() (Tx, error)
 
 	// BlockchainInfo returns the best hash and height of the chain.
 	BlockchainInfo() (BlockchainInfo, error)
@@ -100,12 +100,12 @@ type Wallet interface {
 	// state changes should be prepped and held in memory. If Rollback() is called
 	// the state changes should be discarded. Only when Commit() is called should
 	// the state changes be applied and the transaction broadcasted to the network.
-	Spend(dbtx *Tx, to Address, amt Amount, feeLevel FeeLevel) (TransactionID, error)
+	Spend(dbtx Tx, to Address, amt Amount, feeLevel FeeLevel) (TransactionID, error)
 
 	// SweepWallet should sweep the full balance of the wallet to the requested
 	// address. It is expected for most coins that the fee will be subtracted
 	// from the amount sent rather than added to it.
-	SweepWallet(dbtx *Tx, to Address, level FeeLevel) (TransactionID, error)
+	SweepWallet(dbtx Tx, to Address, level FeeLevel) (TransactionID, error)
 
 	// SubscribeTransactions returns a chan over which the wallet is expected
 	// to push both transactions relevant for this wallet as well as transactions
@@ -128,7 +128,7 @@ type Escrow interface {
 	//
 	// Note a database transaction is used here. Same rules of Commit() and
 	// Rollback() apply.
-	WatchAddress(dbtx *Tx, addr Address) error
+	WatchAddress(dbtx Tx, addr Address) error
 
 	// CreateMultisigAddress creates a new threshold multisig address using the
 	// provided pubkeys and the threshold. The multisig address is returned along
@@ -166,7 +166,7 @@ type Escrow interface {
 	//
 	// Note a database transaction is used here. Same rules of Commit() and
 	// Rollback() apply.
-	BuildAndSend(dbtx *Tx, txn Transaction, signatures [][]EscrowSignature, redeemScript []byte) error
+	BuildAndSend(dbtx Tx, txn Transaction, signatures [][]EscrowSignature, redeemScript []byte) error
 }
 
 // EscrowWithTimeout is an optional interface to be implemented by wallets whos coins
