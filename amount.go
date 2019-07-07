@@ -50,9 +50,19 @@ func (a Amount) Int64() int64 {
 	return x.Int64()
 }
 
+func (a Amount) IsInt64() bool {
+	x := big.Int(a)
+	return x.IsInt64()
+}
+
 func (a Amount) Uint64() uint64 {
 	x := big.Int(a)
 	return x.Uint64()
+}
+
+func (a Amount) IsUint64() bool {
+	x := big.Int(a)
+	return x.IsUint64()
 }
 
 func (a Amount) Cmp(b Amount) int {
