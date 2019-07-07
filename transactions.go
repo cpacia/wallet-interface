@@ -30,11 +30,11 @@ type Transaction struct {
 type SpendInfo struct {
 	ID []byte
 
-	addr   Address
-	amount Amount
+	Address   Address
+	Amount Amount
 
-	isRelevant bool
-	isWatched  bool
+	IsRelevant bool
+	IsWatched  bool
 }
 
 // EscrowSignature represents a signature for an escrow transaction.
