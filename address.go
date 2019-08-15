@@ -7,16 +7,16 @@ type Address struct {
 }
 
 // NewAddress return a new Address.
-func NewAddress(addr string, typ CoinType) *Address {
-	return &Address{addr, typ}
+func NewAddress(addr string, typ CoinType) Address {
+	return Address{addr, typ}
 }
 
 // String returns the address's string representation.
-func (a *Address) String() string {
+func (a Address) String() string {
 	return a.addr
 }
 
 // CoinType returns the addresses type.
-func (a *Address) CoinType() CoinType {
-	return a.CoinType()
+func (a Address) CoinType() CoinType {
+	return a.typ
 }

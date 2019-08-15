@@ -7,8 +7,8 @@ import "strings"
 type CoinType string
 
 // CurrencyCode returns the coins currency code.
-func (ct *CoinType) CurrencyCode() string {
-	return strings.ToUpper(string(*ct))
+func (ct CoinType) CurrencyCode() string {
+	return strings.ToUpper(string(ct))
 }
 
 const (
