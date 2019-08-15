@@ -80,6 +80,10 @@ type Wallet interface {
 	// used address could put the order in a bad state.
 	NewAddress() (Address, error)
 
+	// ValidateAddress validates that the serialization of the address is correct
+	// for this coin and network. It returns an error if it isn't.
+	ValidateAddress(addr Address) error
+
 	// Balance should return the confirmed and unconfirmed balance for the wallet.
 	Balance() (unconfirmed Amount, confirmed Amount, err error)
 
