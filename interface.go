@@ -84,6 +84,14 @@ type Wallet interface {
 	// for this coin and network. It returns an error if it isn't.
 	ValidateAddress(addr Address) error
 
+	// WatchAddress is used by the escrow system to tell the wallet to listen
+	// on the escrow address. It's expected that payments into and spends from
+	// this address will be pushed back to OpenBazaar.
+	//
+	// Note a database transaction is used here. Same rules of Commit() and
+	// Rollback() apply.
+	WatchAddress(dbtx Tx, addr Address) error
+
 	// Balance should return the confirmed and unconfirmed balance for the wallet.
 	Balance() (unconfirmed Amount, confirmed Amount, err error)
 
@@ -139,14 +147,6 @@ type Wallet interface {
 // hard time implementing escrow. If it's not implemented then this coin will not
 // be selectable for either escrow payments or offline payments.
 type Escrow interface {
-	// WatchAddress is used by the escrow system to tell the wallet to listen
-	// on the escrow address. It's expected that payments into and spends from
-	// this address will be pushed back to OpenBazaar.
-	//
-	// Note a database transaction is used here. Same rules of Commit() and
-	// Rollback() apply.
-	WatchAddress(dbtx Tx, addr Address) error
-
 	// EstimateEscrowFee estimates the fee to release the funds from escrow.
 	// this assumes only one input. If there are more inputs OpenBazaar will
 	// will add 50% of the returned fee for each additional input. This is a

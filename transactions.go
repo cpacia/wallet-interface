@@ -32,8 +32,8 @@ type Transaction struct {
 type SpendInfo struct {
 	ID []byte
 
-	Address   Address
-	Amount Amount
+	Address Address
+	Amount  Amount
 
 	IsRelevant bool
 	IsWatched  bool
