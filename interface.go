@@ -84,6 +84,9 @@ type Wallet interface {
 	// for this coin and network. It returns an error if it isn't.
 	ValidateAddress(addr Address) error
 
+	// HasKey returns true if the wallet can spend from the given address.
+	HasKey(addr Address) (bool, error)
+
 	// WatchAddress is used by the escrow system to tell the wallet to listen
 	// on the escrow address. It's expected that payments into and spends from
 	// this address will be pushed back to OpenBazaar.
