@@ -138,11 +138,11 @@ type Wallet interface {
 	// SubscribeTransactions returns a chan over which the wallet is expected
 	// to push both transactions relevant for this wallet as well as transactions
 	// sending to or spending from a watched address.
-	SubscribeTransactions() chan<- Transaction
+	SubscribeTransactions() <-chan Transaction
 
 	// SubscribeBlocks returns a chan over which the wallet is expected
 	// to push info about new blocks when they arrive.
-	SubscribeBlocks() chan<- BlockchainInfo
+	SubscribeBlocks() <-chan BlockchainInfo
 }
 
 // Escrow is functions related to the OpenBazaar escrow system. This interface should
