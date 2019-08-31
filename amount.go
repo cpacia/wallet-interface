@@ -1,7 +1,6 @@
 package wallet_interface
 
 import (
-	"encoding/json"
 	"fmt"
 	"math/big"
 )
@@ -101,19 +100,4 @@ func (a Amount) Div(b Amount) Amount {
 	fz := new(big.Float).Quo(fx, fy)
 	z, _ := fz.Int(nil)
 	return NewAmount(z)
-}
-
-// MarshalJSON is used to marshal the amount to JSON.
-func (a Amount) MarshalJSON() ([]byte, error) {
-	return json.Marshal(a.String())
-}
-
-// UnmarshalJSON is used to unmarshal the amount from JSON.
-func (a Amount) UnmarshalJSON(b []byte) error {
-	var s string
-	err := json.Unmarshal(b, &s)
-	if err == nil {
-		a = NewAmount(s)
-	}
-	return err
 }

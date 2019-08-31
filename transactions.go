@@ -1,5 +1,10 @@
 package wallet_interface
 
+import (
+	"encoding/hex"
+	"encoding/json"
+)
+
 // TransactionID represents an ID for a transaction made by the wallet
 type TransactionID string
 
@@ -37,6 +42,55 @@ type SpendInfo struct {
 
 	IsRelevant bool
 	IsWatched  bool
+}
+
+// MarshalJSON is used to marshal the spend info to JSON.
+func (si *SpendInfo) MarshalJSON() ([]byte, error) {
+	type addrJSON struct {
+		Address  string `json:"address"`
+		CoinType string `json:"cointype"`
+	}
+
+	type siJSON struct {
+		ID      string   `json:"id"`
+		Address addrJSON `json:"address"`
+		Amount  string   `json:"amount"`
+	}
+
+	c0 := siJSON{
+		ID: hex.EncodeToString(si.ID),
+		Address: addrJSON{
+			Address:  si.Address.addr,
+			CoinType: si.Address.typ.CurrencyCode(),
+		},
+		Amount: si.Amount.String(),
+	}
+	return json.Marshal(c0)
+}
+
+// UnmarshalJSON is used to unmarshal the spend info from JSON.
+func (si *SpendInfo) UnmarshalJSON(b []byte) error {
+	type addrJSON struct {
+		Address  string `json:"address"`
+		CoinType string `json:"cointype"`
+	}
+	type siJSON struct {
+		ID      string   `json:"id"`
+		Address addrJSON `json:"address"`
+		Amount  string   `json:"amount"`
+	}
+	var j siJSON
+	err := json.Unmarshal(b, &j)
+	if err == nil {
+		id, err := hex.DecodeString(j.ID)
+		if err != nil {
+			return err
+		}
+		si.ID = id
+		si.Address = Address{addr: j.Address.Address, typ: CoinType(j.Address.CoinType)}
+		si.Amount = NewAmount(j.Amount)
+	}
+	return err
 }
 
 // EscrowSignature represents a signature for an escrow transaction.
