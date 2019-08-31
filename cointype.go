@@ -32,3 +32,22 @@ const (
 	CtTestnetMonero      = "TXMR"
 	CtTestnetDash        = "TDASH"
 )
+
+var codeMap = map[string]CoinType{
+	"MCK":   CtMock,
+	"BTC":   CtBitcoin,
+	"BCH":   CtBitcoinCash,
+	"LTC":   CtLitecoin,
+	"ZEC":   CtZCash,
+	"ETH":   CtEthereum,
+	"XMR":   CtMonero,
+	"DASH":  CtDash,
+	"TMCK":  CtTestnetMock,
+	"TBTC":  CtTestnetBitcoin,
+	"TBCH":  CtTestnetBitcoinCash,
+	"TLTC":  CtTestnetLitecoin,
+	"TZEC":  CtTestnetZCash,
+	"TETH":  CtTestnetEthereum,
+	"TXMR":  CtTestnetMonero,
+	"TDASH": CtTestnetDash,
+}
