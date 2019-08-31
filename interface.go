@@ -231,3 +231,16 @@ type WalletCrypter interface {
 	// If the provided password is incorrect it should error.
 	Unlock(pw []byte, howLong time.Duration) error
 }
+
+// WalletScanner is an interface to be implemented by wallets which cannot query
+// for transactions from an API source. Typically this is either an SPV wallet
+// or a full node. If this interface is implemented OpenBazaar will use it whenever
+// it think it's likely that it received knowledge of an order transaction after
+// the transaction confirmed in the chain. Thus a rescan is necessary before
+// GetTransaction can be called.
+type WalletScanner interface {
+	// RescanTransactions should start a rescan for all wallet address,
+	// including watched address, from the start time. The done chan should
+	// be closed when the rescan is finished.
+	RescanTransactions(start time.Time, done chan struct{}) error
+}
