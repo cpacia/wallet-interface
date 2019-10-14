@@ -182,7 +182,7 @@ type Escrow interface {
 	//
 	// For coins like bitcoin you may need to return one signature *per input* which is
 	// why a slice of signatures is returned.
-	SignMultisigTransaction(txn Transaction, key *btcec.PrivateKey, redeemScript []byte) ([]EscrowSignature, error)
+	SignMultisigTransaction(txn Transaction, key btcec.PrivateKey, redeemScript []byte) ([]EscrowSignature, error)
 
 	// BuildAndSend should used the passed in signatures to build the transaction.
 	// Note the signatures are a slice of slices. This is because coins like Bitcoin
@@ -205,6 +205,10 @@ type EscrowWithTimeout interface {
 	//  - m of n signatures are provided (or)
 	//  - timeout has passed and a signature for timeoutKey is provided.
 	CreateMultisigWithTimeout(keys []btcec.PublicKey, threshold int, timeout time.Duration, timeoutKey btcec.PublicKey) (Address, []byte, error)
+
+	// ReleaseFundsAfterTimeout will release funds from the escrow. The signature will
+	// be created using the timeoutKey.
+	ReleaseFundsAfterTimeout(dbtx Tx, txn Transaction, timeoutKey btcec.PrivateKey, redeemScript []byte) error
 }
 
 // WalletCrypter is an optional interface that the wallet may implement to allow
@@ -239,7 +243,7 @@ type WalletCrypter interface {
 // the transaction confirmed in the chain. Thus a rescan is necessary before
 // GetTransaction can be called.
 type WalletScanner interface {
-	// RescanTransactions should start a rescan for all wallet address,
+	// RescanTransactions should start a rescan for all wallet addresses,
 	// including watched address, from the start time. The done chan should
 	// be closed when the rescan is finished.
 	RescanTransactions(start time.Time, done chan struct{}) error
