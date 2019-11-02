@@ -1,5 +1,7 @@
 package wallet_interface
 
+import "time"
+
 // BlockID represents an ID for a block on the network.
 type BlockID string
 
@@ -12,5 +14,6 @@ func (b *BlockID) String() string {
 type BlockchainInfo struct {
 	BestBlock BlockID
 	Height    uint64
+	BlockTime time.Time
 }
 
