@@ -10,10 +10,10 @@ func (b *BlockID) String() string {
 	return string(*b)
 }
 
-// BlockchainInfo holds the blockchain's best hash and height.
-type BlockchainInfo struct {
-	BestBlock BlockID
+// BlockInfo holds info about a block.
+type BlockInfo struct {
+	BlockID   BlockID
+	PrevBlock BlockID
 	Height    uint64
 	BlockTime time.Time
 }
-

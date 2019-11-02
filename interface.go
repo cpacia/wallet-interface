@@ -64,7 +64,7 @@ type Wallet interface {
 	Begin() (Tx, error)
 
 	// BlockchainInfo returns the best hash and height of the chain.
-	BlockchainInfo() (BlockchainInfo, error)
+	BlockchainInfo() (BlockInfo, error)
 
 	// CurrentAddress is called when requesting this wallet's receiving
 	// address. It is customary that the wallet return the first unused
