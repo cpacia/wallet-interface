@@ -41,9 +41,6 @@ type SpendInfo struct {
 
 	Address Address
 	Amount  Amount
-
-	IsRelevant bool
-	IsWatched  bool
 }
 
 // MarshalJSON is used to marshal the spend info to JSON.
