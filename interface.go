@@ -33,10 +33,10 @@ type WalletLoader interface {
 	// OpenBazaar if WalletExists() returns false.
 	//
 	// The xPriv may be used to create a bip44 keychain. The xPriv is
-	// `cointype` level in the bip44 path. For example in the following
-	// path the wallet should only derive the paths after `cointype` as
-	// m and purpose' are kept private by OpenBazaar so this wallet cannot
-	// derive keys from other wallets.
+	// `account` level in the bip44 path. For example in the following
+	// path the wallet should only derive the paths after `account` as
+	// m, purpose', and coin_type' are kept private by OpenBazaar so this
+	// wallet cannot derive keys from other wallets.
 	//
 	// m / purpose' / coin_type' / account' / change / address_index
 	//
