@@ -26,6 +26,7 @@ type Transaction struct {
 	From []SpendInfo
 	To   []SpendInfo
 
+	Value  Amount
 	Height uint64
 
 	BlockInfo *BlockInfo
