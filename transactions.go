@@ -3,6 +3,7 @@ package wallet_interface
 import (
 	"encoding/hex"
 	"encoding/json"
+	"time"
 )
 
 // TransactionID represents an ID for a transaction made by the wallet
@@ -28,6 +29,8 @@ type Transaction struct {
 
 	Value  Amount
 	Height uint64
+
+	Timestamp time.Time
 
 	BlockInfo *BlockInfo
 }
