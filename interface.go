@@ -105,8 +105,10 @@ type Wallet interface {
 	// that never confirms.
 	IsDust(amount Amount) bool
 
-	// Transactions returns a slice of this wallet's transactions.
-	Transactions() ([]Transaction, error)
+	// Transactions returns a slice of this wallet's transactions. The transactions should
+	// be sorted last to first and the limit and offset respected. The offsetID means
+	// 'return transactions starting with the transaction after offsetID in the sorted list'
+	Transactions(limit int, offsetID TransactionID) ([]Transaction, error)
 
 	// GetTransaction returns a transaction given it's ID.
 	GetTransaction(id TransactionID) (Transaction, error)

@@ -1,7 +1,6 @@
 package wallet_interface
 
 import (
-	"fmt"
 	"math/big"
 )
 
@@ -12,8 +11,8 @@ import (
 type Amount big.Int
 
 // NewAmount creates an Amount from an interface. The interface can be
-// either a int, int32, int64, uint32, uint64, string, or big.Int. Anything
-// else will panic.
+// either a int, int32, int64, uint32, uint64, string (base 10), or big.Int.
+// Anything else will return a zero Amount.
 func NewAmount(i interface{}) Amount {
 	switch i.(type) {
 	case int:
@@ -28,7 +27,10 @@ func NewAmount(i interface{}) Amount {
 		a := new(big.Int).SetUint64(i.(uint64))
 		return Amount(*a)
 	case string:
-		a, _ := new(big.Int).SetString(i.(string), 10)
+		a, ok := new(big.Int).SetString(i.(string), 10)
+		if ! ok {
+			return Amount(*big.NewInt(0))
+		}
 		return Amount(*a)
 	case *big.Int:
 		a := i.(*big.Int)
@@ -36,7 +38,7 @@ func NewAmount(i interface{}) Amount {
 	case big.Int:
 		return Amount(i.(big.Int))
 	default:
-		panic(fmt.Errorf("cannot convert %T to Amount", i))
+		return Amount(*big.NewInt(0))
 	}
 }
 
