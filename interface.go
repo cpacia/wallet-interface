@@ -191,10 +191,10 @@ type Escrow interface {
 	// may require one signature *per input*. In this case the outer slice is the
 	// signatures from the different key holders and the inner slice is the keys
 	// per input.
-	//
+	// (TransactionID,
 	// Note a database transaction is used here. Same rules of Commit() and
 	// Rollback() apply.
-	BuildAndSend(dbtx Tx, txn Transaction, signatures [][]EscrowSignature, redeemScript []byte) error
+	BuildAndSend(dbtx Tx, txn Transaction, signatures [][]EscrowSignature, redeemScript []byte) (TransactionID, error)
 }
 
 // EscrowWithTimeout is an optional interface to be implemented by wallets whos coins

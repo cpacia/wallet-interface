@@ -28,7 +28,7 @@ func NewAmount(i interface{}) Amount {
 		return Amount(*a)
 	case string:
 		a, ok := new(big.Int).SetString(i.(string), 10)
-		if ! ok {
+		if !ok {
 			return Amount(*big.NewInt(0))
 		}
 		return Amount(*a)
