@@ -210,7 +210,7 @@ type EscrowWithTimeout interface {
 
 	// ReleaseFundsAfterTimeout will release funds from the escrow. The signature will
 	// be created using the timeoutKey.
-	ReleaseFundsAfterTimeout(dbtx Tx, txn Transaction, timeoutKey btcec.PrivateKey, redeemScript []byte) error
+	ReleaseFundsAfterTimeout(dbtx Tx, txn Transaction, timeoutKey btcec.PrivateKey, redeemScript []byte) (TransactionID, error)
 }
 
 // WalletCrypter is an optional interface that the wallet may implement to allow
