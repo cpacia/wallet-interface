@@ -110,8 +110,17 @@ type Wallet interface {
 	// 'return transactions starting with the transaction after offsetID in the sorted list'
 	Transactions(limit int, offsetID TransactionID) ([]Transaction, error)
 
-	// GetTransaction returns a transaction given it's ID.
+	// GetTransaction returns a transaction given it's ID. This is used by OpenBazaar to
+	// request transactions paid to an order's payment address. This means we expect both
+	// internal wallet transactions and transactions sending to or from a watched address
+	// to be returned here.
 	GetTransaction(id TransactionID) (Transaction, error)
+
+	// GetAddressTransactions returns the transactions sending to or spending from this address.
+	// Note this will only ever be called for an order's payment address transaction so for the
+	// purpose of this method the wallet only needs to be able to track transactions paid to a
+	// wallet address and any watched addresses.
+	GetAddressTransactions(addr Address) ([]Transaction, error)
 
 	// EstimateSpendFee should return the anticipated fee to transfer a given amount of coins
 	// out of the wallet at the provided fee level. Typically this involves building a
