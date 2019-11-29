@@ -23,17 +23,6 @@ const (
 	CtDash        = "DASH"
 )
 
-var Bip44Indexes = map[CoinType]uint32{
-	CtMock:        1,
-	CtBitcoin:     0,
-	CtBitcoinCash: 145,
-	CtLitecoin:    2,
-	CtZCash:       133,
-	CtEthereum:    60,
-	CtMonero:      128,
-	CtDash:        5,
-}
-
 var codeMap = map[string]CoinType{
 	"MCK":  CtMock,
 	"BTC":  CtBitcoin,
