@@ -21,33 +21,26 @@ const (
 	CtEthereum    = "ETH"
 	CtMonero      = "XMR"
 	CtDash        = "DASH"
-
-	// Testnet
-	CtTestnetMock        = "TMCK"
-	CtTestnetBitcoin     = "TBTC"
-	CtTestnetBitcoinCash = "TBCH"
-	CtTestnetLitecoin    = "TLTC"
-	CtTestnetZCash       = "TZEC"
-	CtTestnetEthereum    = "TETH"
-	CtTestnetMonero      = "TXMR"
-	CtTestnetDash        = "TDASH"
 )
 
+var Bip44Indexes = map[CoinType]uint32{
+	CtMock:        1,
+	CtBitcoin:     0,
+	CtBitcoinCash: 145,
+	CtLitecoin:    2,
+	CtZCash:       133,
+	CtEthereum:    60,
+	CtMonero:      128,
+	CtDash:        5,
+}
+
 var codeMap = map[string]CoinType{
-	"MCK":   CtMock,
-	"BTC":   CtBitcoin,
-	"BCH":   CtBitcoinCash,
-	"LTC":   CtLitecoin,
-	"ZEC":   CtZCash,
-	"ETH":   CtEthereum,
-	"XMR":   CtMonero,
-	"DASH":  CtDash,
-	"TMCK":  CtTestnetMock,
-	"TBTC":  CtTestnetBitcoin,
-	"TBCH":  CtTestnetBitcoinCash,
-	"TLTC":  CtTestnetLitecoin,
-	"TZEC":  CtTestnetZCash,
-	"TETH":  CtTestnetEthereum,
-	"TXMR":  CtTestnetMonero,
-	"TDASH": CtTestnetDash,
+	"MCK":  CtMock,
+	"BTC":  CtBitcoin,
+	"BCH":  CtBitcoinCash,
+	"LTC":  CtLitecoin,
+	"ZEC":  CtZCash,
+	"ETH":  CtEthereum,
+	"XMR":  CtMonero,
+	"DASH": CtDash,
 }
