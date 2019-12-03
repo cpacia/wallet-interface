@@ -3,6 +3,8 @@ package wallet_interface
 import (
 	"encoding/hex"
 	"encoding/json"
+	"errors"
+	"math/big"
 	"time"
 )
 
@@ -33,6 +35,60 @@ type Transaction struct {
 	Timestamp time.Time
 
 	BlockInfo *BlockInfo
+}
+
+// MarshalJSON is used to marshal the transaction to JSON.
+func (t *Transaction) MarshalJSON() ([]byte, error) {
+	type siJSON struct {
+		ID        string      `json:"transactionID"`
+		From      []SpendInfo `json:"from"`
+		To        []SpendInfo `json:"to"`
+		Value     string      `json:"value"`
+		Height    uint64      `json:"height"`
+		Timestamp time.Time   `json:"timestamp"`
+		BlockInfo *BlockInfo  `json:"blockInfo, omitempty"`
+	}
+
+	c0 := siJSON{
+		ID:        t.ID.String(),
+		From:      t.From,
+		To:        t.To,
+		Value:     t.Value.String(),
+		Height:    t.Height,
+		Timestamp: t.Timestamp,
+		BlockInfo: t.BlockInfo,
+	}
+	return json.Marshal(c0)
+}
+
+// UnmarshalJSON is used to unmarshal the transaction from JSON.
+func (t *Transaction) UnmarshalJSON(b []byte) error {
+	type siJSON struct {
+		ID        string      `json:"transactionID"`
+		From      []SpendInfo `json:"from"`
+		To        []SpendInfo `json:"to"`
+		Value     string      `json:"value"`
+		Height    uint64      `json:"height"`
+		Timestamp time.Time   `json:"timestamp"`
+		BlockInfo *BlockInfo  `json:"blockInfo, omitempty"`
+	}
+	var j siJSON
+	err := json.Unmarshal(b, &j)
+	if err == nil {
+		_, ok := new(big.Int).SetString(j.Value, 10)
+		if !ok {
+			return errors.New("value is not base 10")
+		}
+
+		t.ID = TransactionID(j.ID)
+		t.From = j.From
+		t.To = j.To
+		t.Value = NewAmount(j.Value)
+		t.Height = j.Height
+		t.Timestamp = j.Timestamp
+		t.BlockInfo = j.BlockInfo
+	}
+	return err
 }
 
 // SpendInfo represents a transaction data element. This could either
@@ -88,6 +144,10 @@ func (si *SpendInfo) UnmarshalJSON(b []byte) error {
 		id, err := hex.DecodeString(j.ID)
 		if err != nil {
 			return err
+		}
+		_, ok := new(big.Int).SetString(j.Amount, 10)
+		if !ok {
+			return errors.New("amount is not base 10")
 		}
 		si.ID = id
 		si.Address = Address{addr: j.Address.Address, typ: CoinType(j.Address.CoinType)}
