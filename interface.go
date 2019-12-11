@@ -93,7 +93,7 @@ type Wallet interface {
 	//
 	// Note a database transaction is used here. Same rules of Commit() and
 	// Rollback() apply.
-	WatchAddress(dbtx Tx, addr Address) error
+	WatchAddress(dbtx Tx, addrs ...Address) error
 
 	// Balance should return the confirmed and unconfirmed balance for the wallet.
 	Balance() (unconfirmed Amount, confirmed Amount, err error)
