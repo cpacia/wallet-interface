@@ -2,6 +2,7 @@ package wallet_interface
 
 import (
 	"math/big"
+	"strings"
 )
 
 // Amount represents the base monetary unit of a currency. For Bitcoin
@@ -11,8 +12,8 @@ import (
 type Amount big.Int
 
 // NewAmount creates an Amount from an interface. The interface can be
-// either a int, int32, int64, uint32, uint64, string (base 10), or big.Int.
-// Anything else will return a zero Amount.
+// either a int, int32, int64, uint32, uint64, string (base 10 or scientific
+// notation), or big.Int. Anything else will return a zero Amount.
 func NewAmount(i interface{}) Amount {
 	switch i.(type) {
 	case int:
@@ -27,7 +28,19 @@ func NewAmount(i interface{}) Amount {
 		a := new(big.Int).SetUint64(i.(uint64))
 		return Amount(*a)
 	case string:
-		a, ok := new(big.Int).SetString(i.(string), 10)
+		s := i.(string)
+
+		// Check for scientific notation.
+		if strings.Contains(s, ".") && strings.Contains(s, "e+") {
+			f, ok := new(big.Float).SetString(s)
+			if !ok {
+				return Amount(*big.NewInt(0))
+			}
+			a, _ := f.Int(nil)
+			return Amount(*a)
+		}
+
+		a, ok := new(big.Int).SetString(s, 10)
 		if !ok {
 			return Amount(*big.NewInt(0))
 		}

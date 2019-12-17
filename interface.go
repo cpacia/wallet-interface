@@ -32,7 +32,7 @@ type WalletLoader interface {
 	// CreateWallet should initialize the wallet. This will be called by
 	// OpenBazaar if WalletExists() returns false.
 	//
-	// The xPriv may be used to create a bip44 keychain. The xPriv is
+	// The xPriv will be used to create a bip44 keychain. The xPriv is the
 	// `account` level in the bip44 path. For example in the following
 	// path the wallet should only derive the paths after `account` as
 	// m, purpose', and coin_type' are kept private by OpenBazaar so this
@@ -195,6 +195,11 @@ type Escrow interface {
 	// why a slice of signatures is returned.
 	SignMultisigTransaction(txn Transaction, key btcec.PrivateKey, redeemScript []byte) ([]EscrowSignature, error)
 
+	// CanReleaseFunds returns whether the wallet can release the funds from escrow. This MUST
+	// return false if the wallet is encrypted or if there is insufficient coins in the wallet
+	// to pay the transaction fee/gas. This method should not actually move any funds.
+	CanReleaseFunds(txn Transaction, signatures [][]EscrowSignature, redeemScript []byte) (bool, error)
+
 	// BuildAndSend should used the passed in signatures to build the transaction.
 	// Note the signatures are a slice of slices. This is because coins like Bitcoin
 	// may require one signature *per input*. In this case the outer slice is the
@@ -209,7 +214,6 @@ type Escrow interface {
 // EscrowWithTimeout is an optional interface to be implemented by wallets whos coins
 // are capable of supporting time based release of funds from escrow.
 type EscrowWithTimeout interface {
-
 	// CreateMultisigWithTimeout is the same as CreateMultisigAddress but it adds
 	// an additional timeout to the address. The address should have two ways to
 	// release the funds:
