@@ -116,3 +116,8 @@ func (a Amount) Div(b Amount) Amount {
 	z, _ := fz.Int(nil)
 	return NewAmount(z)
 }
+
+// MarshalJSON is used to marshal the amount to JSON.
+func (a Amount) MarshalJSON() ([]byte, error) {
+	return []byte(a.String()), nil
+}
