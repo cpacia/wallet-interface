@@ -12,8 +12,8 @@ func (b *BlockID) String() string {
 
 // BlockInfo holds info about a block.
 type BlockInfo struct {
-	BlockID   BlockID
-	PrevBlock BlockID `json:",omitempty"`
-	Height    uint64
-	BlockTime time.Time
+	BlockID   BlockID   `json:"blockID"`
+	PrevBlock BlockID   `json:",omitempty"`
+	Height    uint64    `json:"height"`
+	BlockTime time.Time `json:"blockTime"`
 }
