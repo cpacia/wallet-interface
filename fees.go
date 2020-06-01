@@ -12,4 +12,6 @@ const (
 	FlNormal
 	// FlEconomic represents the economic fee.
 	FlEconomic
+	// FLSuperEconomic represents a super economic fee.
+	FLSuperEconomic
 )
