@@ -7,11 +7,11 @@ type FeeLevel int
 
 const (
 	// FlPriority represents the priority fee.
-	FlPriority FeeLevel = iota
+	FlPriority FeeLevel = -1
 	// FlPriority represents the normal fee.
-	FlNormal
+	FlNormal FeeLevel = -2
 	// FlEconomic represents the economic fee.
-	FlEconomic
+	FlEconomic FeeLevel = -3
 	// FLSuperEconomic represents a super economic fee.
-	FLSuperEconomic
+	FLSuperEconomic FeeLevel = -4
 )
